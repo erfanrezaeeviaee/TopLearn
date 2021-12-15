@@ -9,6 +9,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Toplearn.DataLayer.Context;
 using Microsoft.EntityFrameworkCore;
+using Toplearn.Core.Services;
+using Toplearn.Core.Services.Interfaces;
+
 namespace Toplearn.Web
 {
     public class Startup
@@ -29,6 +32,12 @@ namespace Toplearn.Web
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            #endregion
+
+            #region IoC
+
+            services.AddTransient<IUserService, UserService>();
 
             #endregion
         }

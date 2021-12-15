@@ -13,6 +13,12 @@ namespace Toplearn.DataLayer.Context
         {
 
         }
+
+        public ToplearnContext()
+        {
+            throw new NotImplementedException();
+        }
+
         #region User
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
