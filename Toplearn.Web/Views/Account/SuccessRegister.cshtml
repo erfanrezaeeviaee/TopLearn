@@ -1,0 +1,19 @@
+﻿@model Toplearn.DataLayer.Entities.User.User
+
+@{
+    ViewBag.Title = "اتمام ثبت نام";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">تاپ لرن</a></li>
+            <li class="breadcrumb-item active" aria-current="page">اتمام ثبت نام</li>
+        </ul>
+    </nav>
+</div>
+<div class="alert alert-success">
+    <h2>@Model.UserName عزیز</h2><br/>
+    <p>ثبت نام شما در سایت انجام شد. ایمیلی حاوی لینک فعالسازی به ایمیل "@Model.Email" ارسال شد</p>
+    <p>جهت ادامه مراحل ثبت نام وارد ایمیل خود شوید و روی لینک فعالسازی کلیک کنید</p>
+</div>

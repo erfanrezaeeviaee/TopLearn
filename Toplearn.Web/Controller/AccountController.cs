@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Toplearn.Core.Convertors;
 using Toplearn.Core.DTOs;
+using Toplearn.Core.Generator;
+using TopLearn.Core.Security;
 using Toplearn.Core.Services.Interfaces;
+using Toplearn.DataLayer.Entities.User;
 
 namespace Toplearn.Web.Controller
 {
@@ -18,6 +21,8 @@ namespace Toplearn.Web.Controller
         {
             _userService = userService;
         }
+        #region Register
+
         [Route("Register")]
         public IActionResult Register()
         {
@@ -25,6 +30,7 @@ namespace Toplearn.Web.Controller
         }
 
         [HttpPost]
+        [Route("Register")]
         public IActionResult Register(RegisterViewModel register)
         {
             if (!ModelState.IsValid)
@@ -34,7 +40,7 @@ namespace Toplearn.Web.Controller
 
             if (_userService.ISExistUserName(register.UserName))
             {
-                ModelState.AddModelError("UserName","نام کاربری تکرای می باشد ");
+                ModelState.AddModelError("UserName", "نام کاربری تکرای می باشد ");
                 return View(register);
             }
 
@@ -44,10 +50,33 @@ namespace Toplearn.Web.Controller
                 return View(register);
             }
 
-            //ToDO: Regisetr User
+            User user = new User
+            {
 
+                UserName = register.UserName,
+                Email = FixedText.FixedEmail(register.Email),
+                Password = PasswordHelper.EncodePasswordMd5(register.RePassword),
+                ActiveCode = NameGenerator.GenerateUniqueCode(),
+                IsActive = false,
+                RegisterDate = DateTime.Now,
+                UserAvatar = "Default.jpg",
+            };
+            _userService.AddUser(user);
+            //TODO: Send Activation Email
+
+            return View("SuccessRegister", user);
+
+        }
+        #endregion
+
+        #region Login
+        [Route("Login")]
+        public IActionResult Login()
+        {
             return View();
         }
 
+
+        #endregion
     }
 }

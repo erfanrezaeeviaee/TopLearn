@@ -6,9 +6,9 @@ namespace Toplearn.Core.Convertors
 {
     public class FixedText
     {
-        public static string FixedEmail(string emil)
+        public static string FixedEmail(string email)
         {
-            return emil.Trim().ToLower();
+            return email.Trim().ToLower();
         }
     }
 }
