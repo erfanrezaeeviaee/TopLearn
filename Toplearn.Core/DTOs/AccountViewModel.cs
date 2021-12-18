@@ -26,4 +26,20 @@ namespace Toplearn.Core.DTOs
         [Compare("Password",ErrorMessage = "کلمه عبور وارد شده مغایرت دارد")]
         public string RePassword { get; set; }
     }
+
+    public class LoginViewModel
+    {
+        [Display(Name = "ایمیل")]
+        [Required(ErrorMessage = "لطفا {0} را وارد نمایید ")]
+        [MaxLength(200, ErrorMessage = "{0}نمی تواند بیشتر از {1} کاراکتر باشد ")]
+        [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نمی باشد")]
+        public string Email { get; set; }
+
+        [Display(Name = "کلمه عبور")]
+        [Required(ErrorMessage = "لطفا {0} را وارد نمایید ")]
+        [MaxLength(200, ErrorMessage = "{0}نمی تواند بیشتر از {1} کاراکتر باشد ")]
+        public string Password { get; set; }
+        [Display(Name = " مرا بخاطر بسپار")]
+        public bool RememberMe { get; set; }
+    }
 }

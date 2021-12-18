@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Toplearn.DataLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Toplearn.Core.Services;
@@ -25,6 +26,23 @@ namespace Toplearn.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+            #region Authentication
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(options =>
+            {
+                options.LoginPath = "/Login";
+                options.LogoutPath = "/Logout";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(43200);
+            });
+
+            #endregion
             services.AddMvc();
             #region DataBase Context
 
@@ -40,6 +58,8 @@ namespace Toplearn.Web
             services.AddTransient<IUserService, UserService>();
 
             #endregion
+
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,8 +70,11 @@ namespace Toplearn.Web
                 app.UseDeveloperExceptionPage();
 
             }
-            app.UseMvcWithDefaultRoute();
+
             app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseMvcWithDefaultRoute();
+           
 
 
             app.Run(async (context) =>
